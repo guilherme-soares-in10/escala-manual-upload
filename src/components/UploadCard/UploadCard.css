@@ -1,0 +1,42 @@
+.uploadCardContainer{
+background-color: var(--white-color);
+border-radius: 4px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: space-between;
+padding: 10px;
+min-width: 386px;
+color: var(--primary-color);
+font-weight: bold;
+}
+
+.browseContainer{
+   border: 4px dashed var(--primary-color);
+   border-radius: 4px;
+   width: 100%;
+   flex: 1;
+   margin: 10px;
+   color: var(--black-color);
+   font-size: var(--small-font-size);
+   font-weight: normal;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+   text-align: center;
+}
+
+.browseContainer a{
+   color: var(--primary-color);
+   text-decoration: none;
+   font-weight: bold;
+}
+
+.browseContainer a:hover{
+   color: var(--tertiary-color);
+}
+
+.browseContainer a:active{
+   color: var(--black-color);
+}

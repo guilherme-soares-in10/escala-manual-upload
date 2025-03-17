@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-escalamanualupload-dev-78eb7-authRole",
+      "UnauthRoleArn": "arn:aws:iam::598442875435:role/amplify-escalamanualupload-dev-78eb7-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::598442875435:role/amplify-escalamanualupload-dev-78eb7-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-escalamanualupload-dev-78eb7-deployment",
+      "UnauthRoleName": "amplify-escalamanualupload-dev-78eb7-unauthRole",
+      "StackName": "amplify-escalamanualupload-dev-78eb7",
+      "StackId": "arn:aws:cloudformation:us-east-1:598442875435:stack/amplify-escalamanualupload-dev-78eb7/9c0b7840-0026-11f0-9d4f-0e9ff0c7df1b",
+      "AmplifyAppId": "d1vhpxtodnrj5o"
+    },
+    "categories": {
+      "auth": {
+        "escalamanualupload": {}
+      },
+      "storage": {
+        "s3escalamanualuploadstorage79049855": {}
+      }
+    }
+  }
+}
