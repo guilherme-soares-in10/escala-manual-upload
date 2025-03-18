@@ -34,9 +34,21 @@ function App() {
         </header>
         <main>
           <div className='uploadCardsContainer'>
-            <UploadCard text={'Upload arquivos plano de mídia'} onClick={() => uploadFile()}/>
-            <UploadCard text={'Upload arquivos Tunad'} onClick={() => uploadFile()}/>
-            <UploadCard text={'Upload arquivos Logan'} onClick={() => uploadFile()}/>
+            <UploadCard 
+              text={'Upload arquivos plano de mídia'} 
+              onClick={() => uploadFile()}
+              cardId="plano-midia"
+            />
+            <UploadCard 
+              text={'Upload arquivos Tunad'} 
+              onClick={() => uploadFile()}
+              cardId="tunad"
+            />
+            <UploadCard 
+              text={'Upload arquivos Logan'} 
+              onClick={() => uploadFile()}
+              cardId="logan"
+            />
           </div>
         </main>
         <footer>
