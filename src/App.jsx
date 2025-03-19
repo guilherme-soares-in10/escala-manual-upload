@@ -7,22 +7,38 @@ import '@aws-amplify/ui-react/styles.css';
 import { signOut } from '@aws-amplify/auth';
 import { uploadData } from 'aws-amplify/storage';
 
-
-
 function App() {
+  async function uploadFile(file, category) {
+    if (!file) {
+      alert('Please select a file first');
+      return;
+    }
 
-  async function uploadFile(file) {
     try {
+      // Create a unique filename with timestamp
+      const timestamp = new Date().getTime();
+      const filename = `${category}/${timestamp}-${file.name}`;
+      
       const result = await uploadData({
         key: filename,
-        data: file
+        data: file,
+        options: {
+          contentType: file.type,
+          metadata: {
+            category: category,
+            uploadedAt: new Date().toISOString()
+          }
+        }
       }).result;
-      console.log('Succeeded: ', result);
+
+      console.log('Upload successful:', result);
+      alert(`File ${file.name} uploaded successfully!`);
     } catch (error) {
-      console.log('Error : ', error);
+      console.error('Upload error:', error);
+      alert(`Error uploading file: ${error.message}`);
     }
   }
-  
+
   return (
     <>
       <div className='App'>
@@ -36,23 +52,23 @@ function App() {
           <div className='uploadCardsContainer'>
             <UploadCard 
               text={'Upload arquivos plano de mídia'} 
-              onClick={() => uploadFile()}
+              onClick={(file) => uploadFile(file, 'plano-midia')}
               cardId="plano-midia"
             />
             <UploadCard 
               text={'Upload arquivos Tunad'} 
-              onClick={() => uploadFile()}
+              onClick={(file) => uploadFile(file, 'tunad')}
               cardId="tunad"
             />
             <UploadCard 
               text={'Upload arquivos Logan'} 
-              onClick={() => uploadFile()}
+              onClick={(file) => uploadFile(file, 'logan')}
               cardId="logan"
             />
           </div>
         </main>
         <footer>
-            <img className='businessman-finding-file' src="./src/images/businessman-finding-file2.svg" width="320px" alt="businessman-finding-file"/>
+          <img className='businessman-finding-file' src="./src/images/businessman-finding-file2.svg" width="320px" alt="businessman-finding-file"/>
         </footer>
       </div>
     </>
@@ -117,4 +133,5 @@ export default withAuthenticator(App, {
   },
   variation: 'modal',
   loginMechanisms: ['username'],
+  hideSignUp: true,
 });

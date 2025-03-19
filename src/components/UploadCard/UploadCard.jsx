@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Button from "../Button/Button";
 import './UploadCard.css';
 
-const UploadCard = ({ text, onClick, cardId,fileFormat}) => {
+const UploadCard = ({ text, onClick, cardId, fileFormat}) => {
     const [file, setFile] = useState(null);
     const fileInputRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
@@ -53,6 +53,10 @@ const UploadCard = ({ text, onClick, cardId,fileFormat}) => {
         }
     };
 
+    const handleUpload = () => {
+        onClick(file);
+    };
+
     return (
         <div className="uploadCardContainer">
             <div>
@@ -91,7 +95,7 @@ const UploadCard = ({ text, onClick, cardId,fileFormat}) => {
                     }
                 </div>
             </div>
-            <Button text={'Upload now'} onClick={onClick}></Button>
+            <Button text={'Upload now'} onClick={handleUpload}></Button>
         </div>
     );
 };
