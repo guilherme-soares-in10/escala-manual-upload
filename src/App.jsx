@@ -4,10 +4,31 @@ import Button from './components/Button/Button.jsx';
 import UploadCard from './components/UploadCard/UploadCard.jsx';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { signOut } from '@aws-amplify/auth';
+import { signOut, getCurrentUser } from '@aws-amplify/auth';
 import { uploadData } from 'aws-amplify/storage';
+import { useState, useEffect } from 'react';
+import { getCompanyConfig } from './config/companies';
 
 function App() {
+  const [userCompany, setUserCompany] = useState(null);
+  const [companyConfig, setCompanyConfig] = useState(null);
+
+  useEffect(() => {
+    async function getUserCompany() {
+      try {
+        const user = await getCurrentUser();
+        const company = user.signInDetails?.userAttributes?.['custom:company'] || 'Escala';
+        setUserCompany(company);
+        setCompanyConfig(getCompanyConfig(company));
+      } catch (error) {
+        console.error('Error getting user company:', error);
+        setUserCompany('Escala');
+        setCompanyConfig(getCompanyConfig('Escala'));
+      }
+    }
+    getUserCompany();
+  }, []);
+
   async function uploadFile(file, category) {
     if (!file) {
       alert('Please select a file first');
@@ -15,9 +36,11 @@ function App() {
     }
 
     try {
-      // Create a unique filename with timestamp
+      // Create a unique filename with timestamp and company folder
       const timestamp = new Date().getTime();
-      const filename = `${category}/${timestamp}-${file.name}`;
+      // Use companyConfig.displayName for the folder name
+      const companyFolder = companyConfig?.displayName.toLowerCase().replace(/\s+/g, '-');
+      const filename = `${companyFolder}/${category}/${timestamp}-${file.name}`;
       
       const result = await uploadData({
         key: filename,
@@ -26,6 +49,7 @@ function App() {
           contentType: file.type,
           metadata: {
             category: category,
+            company: userCompany,
             uploadedAt: new Date().toISOString()
           }
         }
@@ -44,27 +68,27 @@ function App() {
       <div className='App'>
         <header>
           <div className='signOutButtonContainer'>
+          {companyConfig && (
+              <div className='companyIndicator'>
+                {companyConfig.displayName}
+              </div>
+            )}
             <Button className="signOutButton" text="Sign out" onClick={() => signOut()}/>            
           </div>
-          <img className='in10Logo' src="./src/images/in10Logo.svg" width="200px" alt="in10Logo"/>
+          <div>
+            <img className='in10Logo' src="./src/images/in10Logo.svg" width="200px" alt="in10Logo"/>
+          </div>
         </header>
         <main>
           <div className='uploadCardsContainer'>
-            <UploadCard 
-              text={'Upload arquivos plano de mídia'} 
-              onClick={(file) => uploadFile(file, 'plano-midia')}
-              cardId="plano-midia"
-            />
-            <UploadCard 
-              text={'Upload arquivos Tunad'} 
-              onClick={(file) => uploadFile(file, 'tunad')}
-              cardId="tunad"
-            />
-            <UploadCard 
-              text={'Upload arquivos Logan'} 
-              onClick={(file) => uploadFile(file, 'logan')}
-              cardId="logan"
-            />
+            {companyConfig?.categories.map((card, index) => (
+              <UploadCard 
+                key={index}
+                text={card.text}
+                onClick={(file) => uploadFile(file, card.category)}
+                cardId={card.category}
+              />
+            ))}
           </div>
         </main>
         <footer>
