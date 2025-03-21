@@ -1,0 +1,10 @@
+[
+  {
+    "groupName": "Escala",
+    "precedence": 1
+  },
+  {
+    "groupName": "OLX",
+    "precedence": 2
+  }
+]

@@ -4,7 +4,7 @@ import Button from './components/Button/Button.jsx';
 import UploadCard from './components/UploadCard/UploadCard.jsx';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { signOut, getCurrentUser } from '@aws-amplify/auth';
+import { signOut, fetchUserAttributes, getCurrentUser } from '@aws-amplify/auth';
 import { uploadData } from 'aws-amplify/storage';
 import { useState, useEffect } from 'react';
 import { getCompanyConfig } from './config/companies';
@@ -16,14 +16,29 @@ function App() {
   useEffect(() => {
     async function getUserCompany() {
       try {
-        const user = await getCurrentUser();
-        const company = user.signInDetails?.userAttributes?.['custom:company'] || 'Escala';
+        // First get the current authenticated user
+        const currentUser = await getCurrentUser();
+        console.log('Current user:', currentUser);
+        
+        // Then fetch the user attributes with custom attributes
+        const attributes = await fetchUserAttributes({
+          includeCustomAttributes: true
+        });
+        console.log('User attributes:', JSON.stringify(attributes, null, 2));
+        
+        // Check if we have the company attribute
+        if (!attributes['custom:company']) {
+          console.error('No company attribute found for user');
+        }
+        
+        const company = attributes['custom:company'] || 'escala';
+        console.log('Detected company:', company);
         setUserCompany(company);
         setCompanyConfig(getCompanyConfig(company));
       } catch (error) {
         console.error('Error getting user company:', error);
-        setUserCompany('Escala');
-        setCompanyConfig(getCompanyConfig('Escala'));
+        setUserCompany('escala');
+        setCompanyConfig(getCompanyConfig('escala'));
       }
     }
     getUserCompany();

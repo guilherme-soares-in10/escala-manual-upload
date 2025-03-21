@@ -2,7 +2,7 @@
   "version": "1",
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
-    "allowUnauthenticatedIdentities": true,
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "escalaea050c76",
     "userPoolName": "escalamanualupload",
     "autoVerifiedAttributes": [
@@ -14,7 +14,7 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Verification code: {####}",
+    "emailVerificationSubject": "\"Verification code: {####}\"",
     "emailVerificationMessage": "Verification code: {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
@@ -25,17 +25,25 @@
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
-    "userpoolClientWriteAttributes": [],
-    "userpoolClientReadAttributes": [],
+    "userpoolClientWriteAttributes": [
+      "email"
+    ],
+    "userpoolClientReadAttributes": [
+      "email",
+      "family_name"
+    ],
     "userpoolClientLambdaRole": "escalaea050c76_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "sharedId": "ea050c76",
     "resourceName": "escalamanualupload",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
     "useDefault": "manual",
-    "userPoolGroups": false,
-    "userPoolGroupList": [],
+    "userPoolGroups": true,
+    "userPoolGroupList": [
+      "Escala",
+      "OLX"
+    ],
     "adminQueries": false,
     "thirdPartyAuth": false,
     "authProviders": [],
@@ -54,6 +62,12 @@
       ]
     },
     "breakCircularDependency": true,
-    "dependsOn": []
+    "dependsOn": [],
+    "triggers": {},
+    "hostedUI": false,
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "permissions": []
   }
 }

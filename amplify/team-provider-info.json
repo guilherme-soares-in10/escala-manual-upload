@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "escalamanualupload": {}
+        "escalamanualupload": {},
+        "userPoolGroups": {}
       },
       "storage": {
         "s3escalamanualuploadstorage79049855": {}

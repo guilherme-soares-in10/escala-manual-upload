@@ -1,7 +1,7 @@
 // Company configuration
 export const companies = {
   // Company A configuration
-  'Escala': {
+  'escala': {
     displayName: 'Escala',
     categories: [
       { text: 'Upload arquivos plano de mídia', category: 'plano-midia' },
@@ -10,7 +10,7 @@ export const companies = {
     ],
   },
   // Company B configuration
-  'OLX': {
+  'olx': {
     displayName: 'OLX',
     categories: [
       { text: 'Conciliação de liquidações', category: 'conciliacao-liquidacoes' },
