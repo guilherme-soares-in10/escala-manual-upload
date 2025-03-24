@@ -1,14 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-    --primary-color: #510F31;
-    --secondary-color: #F2994A;
-    --tertiary-color: #92687D;
+    --primary-color: #520f30;
+    --secondary-color: #991f69;
+    --tertiary-color: #4c243e;
     --black-color: #000000;
     --white-color: #FFFFFF;
     --gray-color: #333333;
     --success-color: #27AE60;
     --error-color: #EB5757;
   
-    --primary-font: 'Inter', sans-serif;
+    --primary-font-family: 'Inter', sans-serif;
 
     --base-font-size: 16px;
     --heading-font-size: 2rem;
@@ -18,13 +20,12 @@
 
 body {
   box-sizing: border-box;
-  background: linear-gradient(45deg, #3E196E, #D46C76, #FFC07C); 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   min-height: 100vh;
-  font-family: var(--primary-font);
+  font-family: var(--primary-font-family);
   overflow-x: hidden;
 }
 
@@ -34,4 +35,8 @@ html, body, #root {
   width: 100%;
   height: 100%;
   overflow-x: hidden;
+}
+
+* {
+  font-family: var(--primary-font-family);
 }

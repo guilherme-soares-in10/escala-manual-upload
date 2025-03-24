@@ -11,6 +11,17 @@ button{
     transition: background-color 0.3s ease;
 }
 
+button:hover {
+    background-color: var(--white-color);
+    color: var(--gray-color);
+    border: 1px solid var(--primary-color); 
+}
+
+button:active {
+    background-color: var(--tertiary-color);
+    color: var(--white-color);
+}   
+
 .signOutButton {
     background-color: var(--secondary-color);
     color: var(--white-color);
@@ -21,13 +32,3 @@ button{
     margin-right: 20px;
 }
 
-.signOutButton:hover, button:hover {
-    background-color: var(--white-color);
-    color: var(--gray-color);
-    border: 1px solid var(--primary-color); 
-}
-
-.signOutButton:active, button:active {
-    background-color: var(--tertiary-color);
-    color: var(--white-color);
-}   

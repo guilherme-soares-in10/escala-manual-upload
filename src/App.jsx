@@ -2,16 +2,68 @@ import './App.css'
 import './Auth.css'
 import Button from './components/Button/Button.jsx';
 import UploadCard from './components/UploadCard/UploadCard.jsx';
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard.jsx';
+import { withAuthenticator, ThemeProvider, createTheme } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { signOut, fetchUserAttributes, getCurrentUser } from '@aws-amplify/auth';
 import { uploadData } from 'aws-amplify/storage';
 import { useState, useEffect } from 'react';
 import { getCompanyConfig } from './config/companies';
 
+const theme = createTheme({
+  name: 'in10-theme',
+  tokens: {
+    colors: {
+      brand: {
+        primary: {
+          // Use your primary color and Amplify will generate the scale
+          10: '#520f3010',
+          20: '#520f3020',
+          40: '#520f3040',
+          60: '#520f3060',
+          80: '#520f3080',
+          90: '#520f3090',
+          100: '#520f30', // Your primary color
+        },
+      },
+      background: {
+        primary: { value: '#ffffff' }, // White background
+        secondary: { value: '#f8f9fa' }, // Light gray for secondary areas
+      },
+      font: {
+        interactive: { value: '#520f30' }, // Your primary color for interactive text
+      },
+    },
+    fonts: {
+      default: {
+        variable: { value: 'Inter, sans-serif' }, // Match your app font
+        static: { value: 'Inter, sans-serif' },
+      },
+    },
+    components: {
+      button: {
+        primary: {
+          backgroundColor: { value: '{colors.brand.primary.100}' },
+          _hover: {
+            backgroundColor: { value: '{colors.brand.primary.90}' },
+          },
+        },
+      },
+      authenticator: {
+        modal: {
+          backgroundColor: { value: '{colors.background.primary}' },
+          borderRadius: { value: '8px' },
+          boxShadow: { value: '0 4px 20px rgba(0, 0, 0, 0.15)' },
+        },
+      },
+    },
+  },
+});
+
 function App() {
   const [userCompany, setUserCompany] = useState(null);
   const [companyConfig, setCompanyConfig] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     async function getUserCompany() {
@@ -26,12 +78,14 @@ function App() {
         });
         console.log('User attributes:', JSON.stringify(attributes, null, 2));
         
-        // Check if we have the company attribute
-        if (!attributes['custom:company']) {
+        // Check if user is admin
+        const company = attributes['custom:company'];
+        setIsAdmin(company === 'admin');
+        
+        if (!company) {
           console.error('No company attribute found for user');
         }
         
-        const company = attributes['custom:company'] || 'escala';
         console.log('Detected company:', company);
         setUserCompany(company);
         setCompanyConfig(getCompanyConfig(company));
@@ -83,9 +137,14 @@ function App() {
       <div className='App'>
         <header>
           <div className='signOutButtonContainer'>
-          {companyConfig && (
+            {companyConfig && !isAdmin && (
               <div className='companyIndicator'>
                 {companyConfig.displayName}
+              </div>
+            )}
+            {isAdmin && (
+              <div className='adminIndicator'>
+                Admin 
               </div>
             )}
             <Button className="signOutButton" text="Sign out" onClick={() => signOut()}/>            
@@ -95,26 +154,30 @@ function App() {
           </div>
         </header>
         <main>
-          <div className='uploadCardsContainer'>
-            {companyConfig?.categories.map((card, index) => (
-              <UploadCard 
-                key={index}
-                text={card.text}
-                onClick={(file) => uploadFile(file, card.category)}
-                cardId={card.category}
-              />
-            ))}
-          </div>
+          {isAdmin ? (
+            <AdminDashboard />
+          ) : (
+            <div className='uploadCardsContainer'>
+              {companyConfig?.categories.map((card, index) => (
+                <UploadCard 
+                  key={index}
+                  text={card.text}
+                  onClick={(file) => uploadFile(file, card.category)}
+                  cardId={card.category}
+                />
+              ))}
+            </div>
+          )}
         </main>
         <footer>
-          <img className='businessman-finding-file' src="./src/images/businessman-finding-file2.svg" width="320px" alt="businessman-finding-file"/>
+          <p>© 2025 IN10</p>
         </footer>
       </div>
     </>
   )
 }
 
-export default withAuthenticator(App, {
+const AuthenticatedApp = withAuthenticator(App, {
   components: {
     Header() {
       return (
@@ -174,3 +237,11 @@ export default withAuthenticator(App, {
   loginMechanisms: ['username'],
   hideSignUp: true,
 });
+
+export default function ThemedApp() {
+  return (
+    <ThemeProvider theme={theme}>
+      <AuthenticatedApp />
+    </ThemeProvider>
+  );
+}
