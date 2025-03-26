@@ -1,0 +1,21 @@
+.user-list {
+    padding: 1rem;
+}
+
+.user-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.user-list h3 {
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.users-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+} 

@@ -1,8 +1,8 @@
 import './App.css'
 import './Auth.css'
-import Button from './components/Button/Button.jsx';
-import UploadCard from './components/UploadCard/UploadCard.jsx';
-import AdminDashboard from './components/AdminDashboard/AdminDashboard.jsx';
+import Button from './components/common/Button/Button.jsx';
+import UploadCard from './components/upload/UploadCard/UploadCard.jsx';
+import AdminDashboard from './components/admin/AdminDashboard/AdminDashboard.jsx';
 import { withAuthenticator, ThemeProvider, createTheme } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { signOut, fetchUserAttributes, getCurrentUser } from '@aws-amplify/auth';

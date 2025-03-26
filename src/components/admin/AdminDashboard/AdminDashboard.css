@@ -1,0 +1,28 @@
+.admin-dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+}
+
+.admin-actions {
+    margin-bottom: 2rem;
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.company-management-container {
+    overflow-y: scroll;
+    max-height: 100%;
+    width: 60%;
+    border: 1px solid var(--gray-color);
+}
+
+.company-management {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}

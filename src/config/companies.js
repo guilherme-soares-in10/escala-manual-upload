@@ -19,8 +19,48 @@ export const companies = {
     ],
   },
   // Company C configuration
+  'company-a': {
+    displayName: 'Empresa A',
+    categories: [
+      { text: 'Upload arquivos plano de mídia', category: 'plano-midia' },
+      { text: 'Upload arquivos Tunad', category: 'tunad' },
+      { text: 'Upload arquivos Logan', category: 'logan' },
+      { text: 'Upload arquivos Company C', category: 'company-c' }
+    ],
+  },
+
+  'company-b': {
+    displayName: 'Empresa B',
+    categories: [
+      { text: 'Upload arquivos plano de mídia', category: 'plano-midia' },
+      { text: 'Upload arquivos Tunad', category: 'tunad' },
+      { text: 'Upload arquivos Logan', category: 'logan' },
+      { text: 'Upload arquivos Company C', category: 'company-c' }
+    ],
+  },
+
   'company-c': {
     displayName: 'Empresa C',
+    categories: [
+      { text: 'Upload arquivos plano de mídia', category: 'plano-midia' },
+      { text: 'Upload arquivos Tunad', category: 'tunad' },
+      { text: 'Upload arquivos Logan', category: 'logan' },
+      { text: 'Upload arquivos Company C', category: 'company-c' }
+    ],
+  },
+
+  'company-d': {
+    displayName: 'Empresa D',
+    categories: [
+      { text: 'Upload arquivos plano de mídia', category: 'plano-midia' },
+      { text: 'Upload arquivos Tunad', category: 'tunad' },
+      { text: 'Upload arquivos Logan', category: 'logan' },
+      { text: 'Upload arquivos Company C', category: 'company-c' }
+    ],
+  },
+
+  'company-e': {
+    displayName: 'Empresa E',
     categories: [
       { text: 'Upload arquivos plano de mídia', category: 'plano-midia' },
       { text: 'Upload arquivos Tunad', category: 'tunad' },
