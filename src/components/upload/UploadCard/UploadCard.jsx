@@ -71,7 +71,7 @@ const UploadCard = ({ text, onClick, cardId, fileFormat}) => {
                 onDrop={handleDrop}
             >
                 <div>
-                    <img src="./src/images/icon.svg" alt="icon" />                
+                    <img src="./src/images/icon.svg" alt="icon" />              
                     <p>Drag n Drop here<br />
                     or<br /></p>
                     <input 
