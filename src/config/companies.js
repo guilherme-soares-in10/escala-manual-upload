@@ -20,7 +20,7 @@ export const companies = {
   },
   // Company C configuration
   'company-a': {
-    displayName: 'Empresa A',
+    displayName: 'Empresa C',
     categories: [
       { text: 'Upload arquivos plano de mídia', category: 'plano-midia' },
       { text: 'Upload arquivos Tunad', category: 'tunad' },
