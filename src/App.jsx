@@ -5,10 +5,10 @@ import UploadCard from './components/upload/UploadCard/UploadCard.jsx';
 import AdminDashboard from './components/admin/AdminDashboard/AdminDashboard.jsx';
 import { withAuthenticator, ThemeProvider, createTheme } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { signOut, fetchUserAttributes, getCurrentUser } from '@aws-amplify/auth';
+import { signOut, fetchUserAttributes, getCurrentUser, fetchAuthSession } from '@aws-amplify/auth';
 import { uploadData } from 'aws-amplify/storage';
 import { useState, useEffect } from 'react';
-import { getCompanyConfig } from './config/companies';
+import { getCompany } from './services/companyService';
 
 const theme = createTheme({
   name: 'in10-theme',
@@ -72,31 +72,49 @@ function App() {
         const currentUser = await getCurrentUser();
         console.log('Current user:', currentUser);
         
+        // Get the user's groups
+        const { tokens } = await fetchAuthSession();
+        const groups = tokens?.accessToken?.payload['cognito:groups'] || [];
+        console.log('User groups:', groups);
+        setIsAdmin(groups.includes('admin'));
+        
         // Then fetch the user attributes with custom attributes
         const attributes = await fetchUserAttributes({
           includeCustomAttributes: true
         });
         console.log('User attributes:', JSON.stringify(attributes, null, 2));
         
-        // Check if user is admin
+        // Get the user's company
         const company = attributes['custom:company'];
-        setIsAdmin(company === 'admin');
         
-        if (!company) {
+        if (!company && !isAdmin) {
           console.error('No company attribute found for user');
         }
         
         console.log('Detected company:', company);
         setUserCompany(company);
-        setCompanyConfig(getCompanyConfig(company));
+        
+        // Fetch company data from DynamoDB only if not admin and has company
+        if (company && !isAdmin) {
+          const companyData = await getCompany(company);
+          setCompanyConfig(companyData);
+        }
       } catch (error) {
         console.error('Error getting user company:', error);
-        setUserCompany('escala');
-        setCompanyConfig(getCompanyConfig('escala'));
+        // Only fallback to escala if not admin
+        if (!isAdmin) {
+          setUserCompany('escala');
+          try {
+            const companyData = await getCompany('escala');
+            setCompanyConfig(companyData);
+          } catch (fallbackError) {
+            console.error('Error fetching fallback company:', fallbackError);
+          }
+        }
       }
     }
     getUserCompany();
-  }, []);
+  }, [isAdmin]); // Add isAdmin to dependencies
 
   async function uploadFile(file, category) {
     if (!file) {

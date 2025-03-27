@@ -1,11 +1,26 @@
 import { useState } from 'react';
 import Button from '../../../common/Button/Button';
+import { createCompany } from '../../../../services/companyService';
 import './AddCompanyModal.css';
 
-const AddCompanyModal = ({ onClose }) => {
+const AddCompanyModal = ({ onClose, onCompanyAdded }) => {
     const [newCompany, setNewCompany] = useState({
+        companyId: '',
         displayName: '',
-        companyAttribute: ''
+        categories: [
+            {
+                text: 'Upload arquivos plano de mídia',
+                category: 'plano-midia'
+            },
+            {
+                text: 'Upload arquivos Tunad',
+                category: 'tunad'
+            },
+            {
+                text: 'Upload arquivos Logan',
+                category: 'logan'
+            }
+        ]
     });
 
     const handleInputChange = (e) => {
@@ -18,9 +33,20 @@ const AddCompanyModal = ({ onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Implement company creation logic here
-        console.log('Creating new company:', newCompany);
-        onClose();
+        try {
+            // Create company in DynamoDB
+            await createCompany(newCompany);
+            
+            // Call the callback to refresh the companies list
+            if (onCompanyAdded) {
+                onCompanyAdded();
+            }
+            
+            onClose();
+        } catch (error) {
+            console.error('Error creating company:', error);
+            alert('Error creating company: ' + error.message);
+        }
     };
 
     return (
@@ -33,6 +59,21 @@ const AddCompanyModal = ({ onClose }) => {
                 <div className="modal-body">
                     <form className="add-company-form" onSubmit={handleSubmit}>
                         <div className="form-group">
+                            <label htmlFor="companyId">Company ID</label>
+                            <input
+                                type="text"
+                                id="companyId"
+                                name="companyId"
+                                value={newCompany.companyId}
+                                onChange={handleInputChange}
+                                required
+                                placeholder="Enter company ID (e.g., company-name)"
+                            />
+                            <small className="form-help">
+                                This will be used as the unique identifier for the company
+                            </small>
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="displayName">Company Name</label>
                             <input
                                 type="text"
@@ -43,21 +84,6 @@ const AddCompanyModal = ({ onClose }) => {
                                 required
                                 placeholder="Enter company display name"
                             />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="companyAttribute">Company Attribute</label>
-                            <input
-                                type="text"
-                                id="companyAttribute"
-                                name="companyAttribute"
-                                value={newCompany.companyAttribute}
-                                onChange={handleInputChange}
-                                required
-                                placeholder="Enter company attribute for Cognito"
-                            />
-                            <small className="form-help">
-                                This will be used as the custom:company attribute in Cognito
-                            </small>
                         </div>
                         <div className="form-actions">
                             <Button 

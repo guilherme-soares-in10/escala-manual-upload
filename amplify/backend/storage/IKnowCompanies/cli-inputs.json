@@ -1,0 +1,10 @@
+{
+  "resourceName": "IKnowCompanies",
+  "tableName": "IKnowCompanies",
+  "partitionKey": {
+    "fieldName": "companyId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

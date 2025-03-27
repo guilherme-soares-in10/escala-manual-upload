@@ -3,77 +3,61 @@ import './AdminDashboard.css';
 import CompanyManagement from '../CompanyManagement/CompanyManagement';
 import Button from '../../common/Button/Button';
 import AddCompanyModal from '../modals/AddCompanyModal/AddCompanyModal';
-import { companies } from '../../../config/companies';
-import { CognitoIdentityProviderClient, ListUsersCommand } from "@aws-sdk/client-cognito-identity-provider";
-import { fetchAuthSession, getCurrentUser } from '@aws-amplify/auth';
-
-// The User Pool ID of your Cognito User Pool
-const userPoolId = "us-east-1_VuG436BdF";  // Replace this with your actual User Pool ID
+import { getCompanies } from '../../../services/companyService';
 
 function AdminDashboard() {
   const [isAddCompanyModalOpen, setIsAddCompanyModalOpen] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [companies, setCompanies] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Fetch companies
+      console.log('Fetching companies...');
+      const companiesData = await getCompanies();
+      console.log('Fetched companies data:', JSON.stringify(companiesData, null, 2));
+      
+      // Ensure companies is an array and has the required fields
+      const companiesArray = Array.isArray(companiesData) ? companiesData : [];
+      console.log('Processed companies array:', JSON.stringify(companiesArray, null, 2));
+      
+      setCompanies(companiesArray);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError(error.message);
+      setCompanies([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        // First check if user is authenticated
-        const user = await getCurrentUser();
-        if (!user) {
-          console.log('No authenticated user found');
-          return;
-        }
-
-        // Get the current session credentials
-        const { credentials } = await fetchAuthSession();
-        
-        // Create the Cognito client with the session credentials
-        const client = new CognitoIdentityProviderClient({
-          region: "us-east-1",
-          credentials: {
-            accessKeyId: credentials.accessKeyId,
-            secretAccessKey: credentials.secretAccessKey,
-            sessionToken: credentials.sessionToken
-          }
-        });
-
-        // Create the ListUsersCommand object
-        const command = new ListUsersCommand({
-          UserPoolId: userPoolId,
-        });
-
-        // Send the command and fetch the users
-        const data = await client.send(command);
-
-        // Store users in state
-        setUsers(data.Users || []);
-        
-        // Log all users to the console
-        console.log("Users in the User Pool:");
-        data.Users.forEach(user => {
-          console.log(user.Username);
-          console.log(user.Attributes);
-        });
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setError(error.message);
-      }
-    };
-
-    fetchUsers();
-  }, []); // Empty dependency array means this runs once when component mounts
+    fetchData();
+  }, []);
 
   const handleAddCompanyClick = () => {
     setIsAddCompanyModalOpen(true);
   };
+
+  if (loading) {
+    return (
+      <main className="admin-dashboard">
+        <h1>Admin Dashboard</h1>
+        <div>Loading...</div>
+      </main>
+    );
+  }
 
   return (
     <main className="admin-dashboard">
       <h1>Admin Dashboard</h1>
       {error && (
         <div className="error-message">
-          Error fetching users: {error}
+          Error fetching data: {error}
         </div>
       )}
       <div className="admin-actions">
@@ -84,19 +68,20 @@ function AdminDashboard() {
         />
       </div>
       <div className="company-management-container">
-        {/* Iterate over the companies and render a CompanyManagement component for each one */}
-        {Object.keys(companies).map((companyKey) => {
-          const company = companies[companyKey];
-          return (
-            <div key={companyKey}>
+        {companies.length === 0 ? (
+          <div>No companies found. Add your first company!</div>
+        ) : (
+          companies.map((company) => (
+            <div key={company.companyId}>
               <CompanyManagement company={company} />
             </div>
-          );
-        })}
+          ))
+        )}
       </div>
       {isAddCompanyModalOpen && (
         <AddCompanyModal 
           onClose={() => setIsAddCompanyModalOpen(false)}
+          onCompanyAdded={fetchData}
         />
       )}
     </main>

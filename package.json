@@ -10,10 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^6.9.3",
+    "@apollo/client": "^3.8.10",
+    "@aws-amplify/ui-react": "^6.9.5",
     "@aws-amplify/ui-react-storage": "^3.8.2",
     "@aws-sdk/client-cognito-identity-provider": "^3.775.0",
-    "aws-amplify": "^6.13.5",
+    "@aws-sdk/client-dynamodb": "^3.775.0",
+    "@aws-sdk/lib-dynamodb": "^3.775.0",
+    "aws-amplify": "^6.14.0",
+    "graphql": "^15.8.0",
     "oidc-client-ts": "^3.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

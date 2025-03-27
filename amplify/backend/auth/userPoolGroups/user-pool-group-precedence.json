@@ -1,10 +1,6 @@
 [
   {
-    "groupName": "Escala",
+    "groupName": "admin",
     "precedence": 1
-  },
-  {
-    "groupName": "OLX",
-    "precedence": 2
   }
 ]

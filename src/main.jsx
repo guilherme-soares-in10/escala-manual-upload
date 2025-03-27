@@ -16,7 +16,20 @@ const cognitoAuthConfig = {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-Amplify.configure(config);
+Amplify.configure({
+  ...config,
+  API: {
+    REST: {
+      'iknowuploadapi': {
+        endpoint: config.aws_cloud_logic_custom[0].endpoint,
+        region: config.aws_cloud_logic_custom[0].region,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    }
+  }
+});
 
 root.render(
   <React.StrictMode>

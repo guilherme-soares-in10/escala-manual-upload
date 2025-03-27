@@ -1,23 +1,40 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-escalamanualupload-dev-78eb7-authRole",
-      "UnauthRoleArn": "arn:aws:iam::598442875435:role/amplify-escalamanualupload-dev-78eb7-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::598442875435:role/amplify-escalamanualupload-dev-78eb7-authRole",
+      "AuthRoleName": "amplify-iknowupload-dev-b8f0e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::598442875435:role/amplify-iknowupload-dev-b8f0e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::598442875435:role/amplify-iknowupload-dev-b8f0e-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-escalamanualupload-dev-78eb7-deployment",
-      "UnauthRoleName": "amplify-escalamanualupload-dev-78eb7-unauthRole",
-      "StackName": "amplify-escalamanualupload-dev-78eb7",
-      "StackId": "arn:aws:cloudformation:us-east-1:598442875435:stack/amplify-escalamanualupload-dev-78eb7/9c0b7840-0026-11f0-9d4f-0e9ff0c7df1b",
-      "AmplifyAppId": "d1vhpxtodnrj5o"
+      "DeploymentBucketName": "amplify-iknowupload-dev-b8f0e-deployment",
+      "UnauthRoleName": "amplify-iknowupload-dev-b8f0e-unauthRole",
+      "StackName": "amplify-iknowupload-dev-b8f0e",
+      "StackId": "arn:aws:cloudformation:us-east-1:598442875435:stack/amplify-iknowupload-dev-b8f0e/d6307860-0b2d-11f0-ab8a-121c69076df7",
+      "AmplifyAppId": "d213to9kpjthj",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-iknowupload-dev-b8f0e-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-iknowupload-dev-b8f0e-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
-        "escalamanualupload": {},
+        "iknowuploadb55247f0": {},
         "userPoolGroups": {}
       },
+      "function": {
+        "iknowuploadb55247f0PostConfirmation": {
+          "GROUP": "admin",
+          "deploymentBucketName": "amplify-iknowupload-dev-b8f0e-deployment",
+          "s3Key": "amplify-builds/iknowuploadb55247f0PostConfirmation-597279616e632f523534-build.zip"
+        },
+        "iknowuploadfunction": {
+          "dynamodbTableName": "IKnowCompanies",
+          "deploymentBucketName": "amplify-iknowupload-dev-b8f0e-deployment",
+          "s3Key": "amplify-builds/iknowuploadfunction-78486149437676333459-build.zip"
+        }
+      },
       "storage": {
-        "s3escalamanualuploadstorage79049855": {}
+        "IKnowCompanies": {}
+      },
+      "api": {
+        "iknowuploadapi": {}
       }
     }
   }

@@ -1,20 +1,46 @@
 {
+  "api": {
+    "iknowuploadapi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "iknowuploadfunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
   "auth": {
-    "escalamanualupload": {
+    "iknowuploadb55247f0": {
       "customAuth": false,
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "iknowuploadb55247f0PostConfirmation",
+          "triggerProvider": "Cognito"
+        }
+      ],
       "frontendAuthConfig": {
         "mfaConfiguration": "OFF",
         "mfaTypes": [
           "SMS"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [
-            "REQUIRES_LOWERCASE"
-          ],
+          "passwordPolicyCharacters": [],
           "passwordPolicyMinLength": 8
         },
-        "signupAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
         "socialProviders": [],
         "usernameAttributes": [],
         "verificationMechanisms": [
@@ -34,18 +60,93 @@
             "IdentityPoolId"
           ],
           "category": "auth",
-          "resourceName": "escalamanualupload"
+          "resourceName": "iknowuploadb55247f0"
         }
       ],
       "providerPlugin": "awscloudformation",
       "service": "Cognito-UserPool-Groups"
     }
   },
-  "storage": {
-    "s3escalamanualuploadstorage79049855": {
-      "dependsOn": [],
+  "function": {
+    "iknowuploadb55247f0PostConfirmation": {
+      "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "S3"
+      "service": "Lambda"
+    },
+    "iknowuploadfunction": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributeEnvMap": {
+            "Arn": "TABLE_ARN",
+            "Name": "TABLE_NAME"
+          },
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "storage",
+          "resourceName": "IKnowCompanies"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_iknowuploadb55247f0PostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "iknowuploadb55247f0PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_iknowuploadb55247f0PostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "iknowuploadb55247f0PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_iknowuploadb55247f0PostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "iknowuploadb55247f0PostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_iknowuploadfunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "iknowuploadfunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_iknowuploadfunction_dynamodbTableName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "iknowuploadfunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_iknowuploadfunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "iknowuploadfunction"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "IKnowCompanies": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

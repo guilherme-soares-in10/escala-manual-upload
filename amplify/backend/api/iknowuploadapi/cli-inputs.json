@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "paths": {
+    "/companies": {
+      "name": "/companies",
+      "lambdaFunction": "iknowuploadfunction",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}
